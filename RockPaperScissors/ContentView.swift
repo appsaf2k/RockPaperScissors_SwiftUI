@@ -53,6 +53,7 @@ struct ContentView: View {
                         .font(.largeTitle.bold())
                         .foregroundStyle(.white).opacity(0.7)
                         .padding(.bottom, 10)
+                        .opacity(showingAlert ? 0 : 1)
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -63,6 +64,7 @@ struct ContentView: View {
                 Spacer()
                 VStack {
                     Text(showingCard ? "ЖМИ НА КАРТОЧКУ, СВЕРХУ" : "ВЫБЕРИ КАРТОЧКУ")
+                        .opacity(showingAlert ? 0 : 1)
                         .foregroundColor(.white)
                     HStack {
                         ForEach(0..<3) { number in
