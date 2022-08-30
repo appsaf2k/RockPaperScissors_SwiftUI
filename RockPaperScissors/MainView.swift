@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MainView: View {
     @State private var array = ["rock", "paper", "scissors"]
     @State private var pickTitle = ""
     @State private var randomArray = Int.random(in: 0...2)
@@ -75,6 +75,8 @@ struct ContentView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                     .shadow(color: .white, radius: 5, x: 0, y: 0)
                                     .padding(.horizontal, 10)
+                                    .opacity(showingAlert ? 0 : 1)
+                                    .animation(.easeOut, value: showingCard)
                             }
                             .disabled(showingCard)
                         }
@@ -94,16 +96,13 @@ struct ContentView: View {
         if number == randomArray {
             pickTitle = "Выиграл!"
             score += 1
-            
         } else {
             pickTitle = "Проиграл!"
             score2 += 1
         }
-        
         if score == 5 || score2 == 5 {
             showingAlert = true
         }
-        
         showingCard = true
     }
     
@@ -113,12 +112,11 @@ struct ContentView: View {
         score = 0
         score2 = 0
         showingCard = false
-        
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        MainView()
     }
 }
