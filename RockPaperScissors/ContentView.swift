@@ -13,15 +13,27 @@ struct ContentView: View {
     @State private var randomArray = Int.random(in: 0...2)
     @State private var score = 0
     @State private var showingCard = false
+    
+    @State private var name = ["Трус", "Балбес", "Бывалый"]
+    @State private var randomName = Int.random(in: 0...2)
+    @State private var score2 = 0
+    @State private var showingAlert = false
 
     var body: some View {
         ZStack {
             LinearGradient(colors: [.black, .gray, .black, .gray], startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
             VStack {
-                Text("Твой счет: \(score)")
-                    .font(.title3)
+                HStack {
+                    Text("\(name[randomName]): \(score2)")
+                        .font(.title3)
                     .foregroundStyle(.white).opacity(0.8)
+                    Spacer()
+                    Text("Твой счет: \(score)")
+                        .font(.title3)
+                    .foregroundStyle(.white).opacity(0.8)
+                }
+                .padding(.horizontal)
                 
                 Spacer()
                 VStack {
@@ -62,10 +74,17 @@ struct ContentView: View {
                                     .shadow(color: .white, radius: 5, x: 0, y: 0)
                                     .padding(.horizontal, 10)
                             }
+                            .disabled(showingCard)
                         }
                     }
                 }
             }
+            .alert("Игра окончена", isPresented: $showingAlert) {
+                Button("Заново", action: reset)
+            } message: {
+                Text("Ты \(pickTitle)")
+            }
+
         }
     }
     
@@ -76,11 +95,23 @@ struct ContentView: View {
             
         } else {
             pickTitle = "Проиграл!"
-            if score != 0 {
-                score -= 1
-            }
+            score2 += 1
         }
+        
+        if score == 5 || score2 == 5 {
+            showingAlert = true
+        }
+        
         showingCard = true
+    }
+    
+    func reset() {
+        name.shuffle()
+        randomName = Int.random(in: 0...2)
+        score = 0
+        score2 = 0
+        showingCard = false
+        
     }
 }
 
