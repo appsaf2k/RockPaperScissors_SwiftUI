@@ -18,6 +18,9 @@ struct MainView: View {
     @State private var randomName = Int.random(in: 0...2)
     @State private var score2 = 0
     @State private var showingAlert = false
+    
+    @State private var phrase = ["Сыграем?", "Ну, давай-давай", "Верь в себя", "Тебе точно повезет", "Твой ход", "Ты лучший", "Хочешь ещё?", "Ходи давай", "Может сдашься?", "Тебе не подебить", "Наивный", "Ты худший", "Лузер", "И как тебе?", "Ты красавчик"]
+    @State private var randomPhrase = Int.random(in: 0...14)
 
     var body: some View {
         ZStack {
@@ -37,19 +40,20 @@ struct MainView: View {
                 
                 Spacer()
                 VStack {
-                    Image(array[randomArray])
+                    Image(showingCard ? array[randomArray] : "clear")
                         .resizable()
                         .scaledToFit()
                         .cornerRadius(15)
                         .padding(.top, 40)
                         .padding(.horizontal, 40)
-                        .opacity(showingCard ? 1 : 0)
+                        .shadow(color: .white, radius: 10, x: 0, y: 0)
+                        .animation(.easeOut(duration: 0.6), value: showingCard)
                         .onTapGesture {
                             randomArray = Int.random(in: 0...2)
                             showingCard = false
                         }
                     
-                    Text(showingCard ? pickTitle : "СЫГРАЕМ?")
+                    Text(showingCard ? pickTitle : phrase[randomPhrase])
                         .font(.largeTitle.bold())
                         .foregroundStyle(.white).opacity(0.7)
                         .padding(.bottom, 10)
@@ -104,6 +108,7 @@ struct MainView: View {
             showingAlert = true
         }
         showingCard = true
+        randomPhrase = Int.random(in: 0...14)
     }
     
     func reset() {
